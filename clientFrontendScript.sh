@@ -6,7 +6,7 @@ APP_DIR="/home/avinash/servers/frontend"
 BRANCH="feature/uiux-improvment"
 BACKEND_LINK="http://localhost:5000"
 LOG_FILE="/home/avinash/frontend.log"
-PORT=3000
+PORT=4000
 # ======================================
 
 # Kill any process using port 3000
