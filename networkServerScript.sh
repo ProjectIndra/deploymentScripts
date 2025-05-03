@@ -1,8 +1,8 @@
 #!/bin/bash
 
 # ======= Configurable Variables =======
-REPO_URL="https://github.com/ProjectIndra/networkServer.git"  # Change this to your repo URL
-APP_DIR="/home/avinash/servers/networkServer"   # Path where the repo should be cloned
+REPO_URL="https://github.com/ProjectIndra/networkServer.git"
+APP_DIR="/home/avinash/servers/networkServer"
 APP_PORT=3000
 # ======================================
 
@@ -13,7 +13,7 @@ if [ ! -d "$APP_DIR" ]; then
 else
     echo "[*] Directory found, pulling latest changes..."
     cd "$APP_DIR" || exit 1
-    git pull origin main  # Replace "main" with the correct branch if needed
+    git pull origin master
 fi
 
 cd "$APP_DIR" || exit 1
@@ -40,6 +40,8 @@ sudo chmod 777 /etc/wireguard
 
 # Run the server directly with Poetry
 echo "[*] Running server... (Poetry)"
-fuser -k 5000/tcp > /dev/null 2>&1 || true
+lsof -ti tcp:$APP_PORT | xargs -r kill -9
 export $(grep -v '^#' .env | xargs)
-/home/avinash/.local/bin/poetry run python server.py
+/home/avinash/.local/bin/poetry run python server.py > >(tee -a /home/avinash/network_server.log > /dev/null) 2>&1 &
+
+echo "[*] Server started in background."
