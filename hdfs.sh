@@ -22,25 +22,15 @@ wget https://dlcdn.apache.org/hadoop/common/hadoop-3.4.1/hadoop-3.4.1.tar.gz
 tar -xvzf hadoop-3.4.1.tar.gz
 rm -rf hadoop-3.4.1.tar.gz
 
+# Create /hdfs directory and set permissions
+mkdir -p /hdfs
+chown avinash:avinash /hdfs
+chmod 700 /hdfs
+
 # Configure hdfs-site.xml
 cat <<EOL > $HADOOP_CONF_DIR/hdfs-site.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-<!--
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. See accompanying LICENSE file.
--->
-
-<!-- Put site-specific property overrides in this file. -->
 
 <configuration>
  <property>
@@ -62,21 +52,6 @@ EOL
 cat <<EOL > $HADOOP_CONF_DIR/core-site.xml
 <?xml version="1.0" encoding="UTF-8"?>
 <?xml-stylesheet type="text/xsl" href="configuration.xsl"?>
-<!--
-  Licensed under the Apache License, Version 2.0 (the "License");
-  you may not use this file except in compliance with the License.
-  You may obtain a copy of the License at
-
-    http://www.apache.org/licenses/LICENSE-2.0
-
-  Unless required by applicable law or agreed to in writing, software
-  distributed under the License is distributed on an "AS IS" BASIS,
-  WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
-  See the License for the specific language governing permissions and
-  limitations under the License. See accompanying LICENSE file.
--->
-
-<!-- Put site-specific property overrides in this file. -->
 
 <configuration> 
  <property> 
@@ -102,5 +77,15 @@ cat <<EOL > $HADOOP_CONF_DIR/core-site.xml
 </configuration>
 EOL
 
+# Format HDFS (only if not already formatted)
+if [ ! -d /hdfs/current ]; then
+  echo "Formatting HDFS NameNode..."
+  hdfs namenode -format -force
+fi
+
+# Start NameNode with logging
+echo "Starting NameNode in background with logging to $HADOOP_LOG_DIR/hdfs.log..."
+hdfs namenode >> $HADOOP_LOG_DIR/hdfs.log 2>&1 < /dev/null &
+
 # Output success message
-echo "Hadoop 3.4.1 has been installed and configuration files have been set."
+echo "Hadoop 3.4.1 has been installed, configured, HDFS formatted, and NameNode started."
