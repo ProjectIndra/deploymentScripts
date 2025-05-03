@@ -2,7 +2,7 @@
 
 # ======= Configurable Variables =======
 REPO_URL="https://github.com/ProjectIndra/managementServer.git"  # Change this to your repo URL
-APP_DIR="/servers/"   # Path where the repo should be cloned
+APP_DIR="/home/avinash/servers/managmentServer"   # Path where the repo should be cloned
 APP_PORT=5000
 # ======================================
 
