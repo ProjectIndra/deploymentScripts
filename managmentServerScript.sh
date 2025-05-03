@@ -28,7 +28,7 @@ if [ ! -f ".env" ]; then
     cat <<EOF > .env
 MONGO_URI="mongodb+srv://kumarsubrato:tIwCh1TWkWtiFhpq@cluster0.j0fgs.mongodb.net/?retryWrites=true&w=majority&appName=Cluster0"
 SECRET_KEY=''
-HDFS_SERVER='https://pet-muskox-honestly.ngrok-free.app'
+HDFS_SERVER='http://localhost:2000'
 PROMETHEUS_CONFIG_PATH='/home/subroto/prometheus/prometheus-3.3.0-rc.0.linux-amd64/prometheus_conf.yml'
 EOF
 fi
