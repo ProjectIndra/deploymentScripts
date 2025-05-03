@@ -2,7 +2,7 @@
 
 # ======= Configurable Variables =======
 REPO_URL="https://github.com/ProjectIndra/managementServer.git"  # Change this to your repo URL
-APP_DIR="/home/avinash/servers/managmentServer"   # Path where the repo should be cloned
+APP_DIR="/home/avinash/servers/managmentServer/"   # Path where the repo should be cloned
 APP_PORT=5000
 # ======================================
 
@@ -35,6 +35,7 @@ fi
 
 # Run the Flask app directly with Poetry
 echo "[*] Running Flask app..."
-fuser -k 5000/tcp > /dev/null 2>&1 || true
+lsof -ti tcp:5000 | xargs -r kill -9
 export $(grep -v '^#' .env | xargs)
-/home/avinash/.local/bin/poetry run flask --app server.py run --host=0.0.0.0 --port $APP_PORT
+
+/home/avinash/.local/bin/poetry run flask --app server.py run --host=0.0.0.0 --port $APP_PORT > >(tee -a /home/avinash/management_server.log > /dev/null) 2>&1 &
