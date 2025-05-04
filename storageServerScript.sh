@@ -22,7 +22,7 @@ if [ ! -d "$APP_DIR" ]; then
 else
     echo "[*] Pulling latest changes..."
     cd "$APP_DIR" || exit 1
-    git pull origin main
+    git pull origin master
 fi
 
 cd "$APP_DIR" || exit 1
