@@ -13,6 +13,9 @@
 # If ssh fails at the 
 # debug1: expecting SSH2_MSG_KEX_ECDH_REPLY in verbose ssh
 
+# also add this command
+# sudo iptables -t nat -A POSTROUTING -o wg0 -j MASQUERADE ( this also should be put in network server directly )
+
 #!/bin/bash
 
 set -e
