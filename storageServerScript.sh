@@ -1,5 +1,8 @@
 #!/bin/bash
 
+# Load environment variables
+source /home/avinash/.bashrc
+
 # ========== Configuration ==========
 REPO_URL="https://github.com/ProjectIndra/storageServer.git"
 APP_DIR="/home/avinash/servers/storageServer"
