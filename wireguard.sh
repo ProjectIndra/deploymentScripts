@@ -15,6 +15,7 @@
 
 # also add this command
 # sudo iptables -t nat -A POSTROUTING -o wg0 -j MASQUERADE ( this also should be put in network server directly )
+# sudo iptables -t nat -A POSTROUTING -o ens4 -j MASQUERADE
 
 #!/bin/bash
 
