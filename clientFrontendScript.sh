@@ -5,7 +5,7 @@ REPO_URL="https://github.com/ProjectIndra/clientFrontend.git"
 APP_DIR="/home/avinash/servers/frontend"
 BRANCH="feature/uiux-improvment"
 BACKEND_LINK="http://localhost:5000"
-LOG_FILE="/home/avinash/frontend.log"
+LOG_FILE="/var/log/frontend.log"
 PORT=4000
 # ======================================
 
