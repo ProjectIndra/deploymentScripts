@@ -57,6 +57,26 @@ server {
     }
 }
 
+###############################################
+# 4) fileshare.computekart.com → 8080
+###############################################
+server {
+    listen 443 ssl;
+    server_name fileshare.computekart.com;
+
+    # Use the same wildcard certificate
+    ssl_certificate /etc/letsencrypt/live/computekart.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/computekart.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:8000;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+
 
 ###############################################
 # Redirect all HTTP → HTTPS
