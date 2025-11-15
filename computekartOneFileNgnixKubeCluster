@@ -1,0 +1,68 @@
+###############################################
+# 1) Main site: computekart.com → 30006
+###############################################
+server {
+    listen 443 ssl;
+    server_name computekart.com;
+
+    ssl_certificate /etc/letsencrypt/live/computekart.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/computekart.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:30006;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+
+
+###############################################
+# 2) backend.computekart.com → 30001
+###############################################
+server {
+    listen 443 ssl;
+    server_name backend.computekart.com;
+
+    ssl_certificate /etc/letsencrypt/live/backend.computekart.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/backend.computekart.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:30001;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+
+
+###############################################
+# 3) Wildcard: *.computekart.com → 30004
+###############################################
+server {
+    listen 443 ssl;
+    server_name *.computekart.com;
+
+    ssl_certificate /etc/letsencrypt/live/computekart.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/computekart.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:30004;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
+}
+
+
+###############################################
+# Redirect all HTTP → HTTPS
+###############################################
+server {
+    listen 80;
+    server_name computekart.com backend.computekart.com *.computekart.com;
+    return 301 https://$host$request_uri;
+}
