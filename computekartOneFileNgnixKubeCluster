@@ -60,13 +60,14 @@ server {
 ###############################################
 # 4) fileshare.computekart.com → 8080
 ###############################################
+# files whont download if seperate certificate other than wildcard is issues for fileshare.computekart.com also
 server {
     listen 443 ssl;
     server_name fileshare.computekart.com;
 
     # Use the same wildcard certificate
-    ssl_certificate /etc/letsencrypt/live/computekart.com/fullchain.pem;
-    ssl_certificate_key /etc/letsencrypt/live/computekart.com/privkey.pem;
+    ssl_certificate /etc/letsencrypt/live/computekart.com-0001/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/computekart.com-0001/privkey.pem;
 
     location / {
         proxy_pass http://localhost:8000;
