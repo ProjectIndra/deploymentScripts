@@ -1,3 +1,5 @@
+# for any domaind adding certificates sudo certbot certonly --nginx -d monitoring.computekart.com
+
 ###############################################
 # 1) Main site: computekart.com → 30006
 ###############################################
