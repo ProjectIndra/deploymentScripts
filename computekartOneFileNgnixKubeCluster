@@ -60,7 +60,6 @@ server {
 ###############################################
 # 4) fileshare.computekart.com → 8080
 ###############################################
-# files whont download if seperate certificate other than wildcard is issues for fileshare.computekart.com also
 server {
     listen 443 ssl;
     server_name fileshare.computekart.com;
@@ -87,3 +86,22 @@ server {
     server_name computekart.com backend.computekart.com *.computekart.com;
     return 301 https://$host$request_uri;
 }
+
+###############################################
+# 5) monitoring.computekart.com → 30003
+###############################################
+server {
+    listen 443 ssl;
+    server_name monitoring.computekart.com;
+
+    # Use wildcard certificate if monitoring is also under *.computekart.com
+    ssl_certificate /etc/letsencrypt/live/monitoring.computekart.com/fullchain.pem;
+    ssl_certificate_key /etc/letsencrypt/live/monitoring.computekart.com/privkey.pem;
+
+    location / {
+        proxy_pass http://localhost:30003;
+        proxy_set_header Host $host;
+        proxy_set_header X-Real-IP $remote_addr;
+        proxy_set_header X-Forwarded-For $proxy_add_x_forwarded_for;
+        proxy_set_header X-Forwarded-Proto https;
+    }
